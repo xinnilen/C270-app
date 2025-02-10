@@ -19,7 +19,11 @@ jobs:
         
       # Step 2: List files in the repository root (debugging)
       - name: List files in the repository root
-        run: ls -al /home/runner/work/C270-app/C270-app/
+        run: |
+          echo "Listing files in the root directory"
+          ls -al
+          echo "Listing files in the subdirectories"
+          ls -al */  # List subdirectories to check if frontend exists
 
       # Step 3: Set up Node.js environment
       - name: Set up Node.js
@@ -29,7 +33,7 @@ jobs:
 
       # Step 4: Change directory to frontend (adjust if needed based on debug output)
       - name: Change directory to frontend
-        run: cd frontend  # Adjust as needed based on ls output
+        run: cd frontend  # Adjust based on ls output
 
       # Step 5: Install dependencies
       - name: Install dependencies
@@ -38,35 +42,3 @@ jobs:
       # Step 6: Run tests
       - name: Run tests
         run: npm test
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Step 2: Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      # Step 3: Change directory to frontend (if necessary)
-      - name: Change directory to frontend
-        run: cd frontend  # Adjust as needed based on ls output
-
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 5: Deploy (example, customize according to your needs)
-      - name: Deploy to Production
-        run: |
-          ssh user@your-server "cd /path/to/your/project && git pull origin main && npm install && pm2 restart your-app"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.USER }}
