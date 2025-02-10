@@ -23,15 +23,19 @@ jobs:
         with:
           node-version: '14'
 
-      # Step 3: Navigate to the correct directory (if package.json is inside a folder, e.g., 'app')
-      - name: Change directory to app
-        run: cd app  # Adjust this if the directory name is different
+      # Step 3: List directory contents (for debugging purposes)
+      - name: List directory contents
+        run: ls -R  # This helps identify the correct directory of package.json
 
-      # Step 4: Install dependencies
+      # Step 4: Change directory to the correct one (adjust directory name if necessary)
+      - name: Change directory to frontend
+        run: cd frontend  # Change this to the correct folder
+
+      # Step 5: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Run tests
+      # Step 6: Run tests
       - name: Run tests
         run: npm test
 
@@ -50,15 +54,15 @@ jobs:
         with:
           node-version: '14'
 
-      # Step 3: Navigate to the correct directory for deployment (if required)
-      - name: Change directory to app
-        run: cd app  # Adjust as needed
+      # Step 3: Change directory to the correct one for deployment (if necessary)
+      - name: Change directory to frontend
+        run: cd frontend  # Adjust as needed
 
       # Step 4: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Deploy (this is an example, adjust as per your deployment method)
+      # Step 5: Deploy (example, customize according to your needs)
       - name: Deploy to Production
         run: |
           ssh user@your-server "cd /path/to/your/project && git pull origin main && npm install && pm2 restart your-app"
