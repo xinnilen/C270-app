@@ -25,11 +25,15 @@ jobs:
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd app  # Navigate to the 'app' subdirectory where package.json is located
+          npm install  # Install project dependencies
 
-      # Step 4: Run tests (assuming you are using Jest or another testing framework)
+      # Step 4: Run tests
       - name: Run tests
-        run: npm test
+        run: |
+          cd app  # Ensure we're in the correct directory
+          npm test  # Run tests using the testing framework defined in package.json
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,7 +52,9 @@ jobs:
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd app  # Navigate to the 'app' subdirectory
+          npm install  # Install dependencies for production deployment
 
       # Step 4: Deploy (this can be customized to your deployment process)
       - name: Deploy to Production
@@ -59,4 +65,3 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOST: ${{ secrets.HOST }}
           USER: ${{ secrets.USER }}
-
