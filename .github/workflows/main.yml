@@ -8,37 +8,47 @@ on:
     branches:
       - main
 
+permissions: 
+  contents: read
+  pages: write
+  id-token: write  # ✅ Required for deployment
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2
-        
-      # Step 2: List files in the repository root (debugging)
-      - name: List files in the repository root
-        run: |
-          echo "Listing files in the root directory"
-          ls -al
-          echo "Listing files in the subdirectories"
-          ls -al */  # List subdirectories to check if frontend exists
+        uses: actions/checkout@v4  # ✅ Updated version
 
-      # Step 3: Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          node-version: '14'
+          ruby-version: '3.2.3'
 
-      # Step 4: Change directory to frontend (adjust if needed based on debug output)
-      - name: Change directory to frontend
-        run: cd frontend  # Adjust based on ls output
+      - name: Install Jekyll and Bundler
+        run: |
+          gem install jekyll bundler
+          bundle install
 
-      # Step 5: Install dependencies
-      - name: Install dependencies
-        run: npm install
+      - name: Build with Jekyll
+        run: |
+          bundle exec jekyll build
 
-      # Step 6: Run tests
-      - name: Run tests
-        run: npm test
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4  # ✅ Corrected upload
+        with:
+          name: github-pages  # 🔥 MUST MATCH deployment artifact name!
+          path: './_site'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4  # ✅ Correct deployment
