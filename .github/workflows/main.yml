@@ -26,14 +26,11 @@ jobs:
         with:
           ruby-version: '3.2.3'
 
-      - name: Install Jekyll and Bundler
-        run: |
-          gem install jekyll bundler
-          bundle install
+      - name: Install Jekyll
+        run: gem install jekyll
 
       - name: Build with Jekyll
-        run: |
-          bundle exec jekyll build
+        run: jekyll build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4  # ✅ Corrected upload
