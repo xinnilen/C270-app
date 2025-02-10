@@ -21,15 +21,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Adjust version as needed
+          node-version: '14'
 
-      # Step 3: Install dependencies
+      # Step 3: Navigate to the correct directory (if package.json is inside a folder, e.g., 'app')
+      - name: Change directory to app
+        run: cd app  # Adjust this if the directory name is different
+
+      # Step 4: Install dependencies
       - name: Install dependencies
-        run: npm install  # This will run in the root directory if package.json is there
+        run: npm install
 
-      # Step 4: Run tests
+      # Step 5: Run tests
       - name: Run tests
-        run: npm test  # Run tests in the root directory
+        run: npm test
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,11 +50,15 @@ jobs:
         with:
           node-version: '14'
 
-      # Step 3: Install dependencies
+      # Step 3: Navigate to the correct directory for deployment (if required)
+      - name: Change directory to app
+        run: cd app  # Adjust as needed
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Deploy (this is an example, adjust as per your deployment method)
+      # Step 5: Deploy (this is an example, adjust as per your deployment method)
       - name: Deploy to Production
         run: |
           ssh user@your-server "cd /path/to/your/project && git pull origin main && npm install && pm2 restart your-app"
