@@ -17,9 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      # Step 2: List repository contents (for debugging purposes)
-      - name: List repository contents
-        run: ls -R  # This will list all files and directories
+      # Step 2: List files in the repository root (debugging)
+      - name: List files in the repository root
+        run: ls -al /home/runner/work/C270-app/C270-app/
 
       # Step 3: Set up Node.js environment
       - name: Set up Node.js
@@ -27,9 +27,9 @@ jobs:
         with:
           node-version: '14'
 
-      # Step 4: Change directory to frontend (adjust if needed based on the debug output)
+      # Step 4: Change directory to frontend (adjust if needed based on debug output)
       - name: Change directory to frontend
-        run: cd frontend  # Replace 'frontend' with the correct directory name based on ls output
+        run: cd frontend  # Adjust as needed based on ls output
 
       # Step 5: Install dependencies
       - name: Install dependencies
