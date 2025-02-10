@@ -17,19 +17,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      # Step 2: Set up Node.js environment
+      # Step 2: List repository contents (for debugging purposes)
+      - name: List repository contents
+        run: ls -R  # This will list all files and directories
+
+      # Step 3: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      # Step 3: List directory contents (for debugging purposes)
-      - name: List directory contents
-        run: ls -R  # This helps identify the correct directory of package.json
-
-      # Step 4: Change directory to the correct one (adjust directory name if necessary)
+      # Step 4: Change directory to frontend (adjust if needed based on the debug output)
       - name: Change directory to frontend
-        run: cd frontend  # Change this to the correct folder
+        run: cd frontend  # Replace 'frontend' with the correct directory name based on ls output
 
       # Step 5: Install dependencies
       - name: Install dependencies
@@ -54,9 +54,9 @@ jobs:
         with:
           node-version: '14'
 
-      # Step 3: Change directory to the correct one for deployment (if necessary)
+      # Step 3: Change directory to frontend (if necessary)
       - name: Change directory to frontend
-        run: cd frontend  # Adjust as needed
+        run: cd frontend  # Adjust as needed based on ls output
 
       # Step 4: Install dependencies
       - name: Install dependencies
